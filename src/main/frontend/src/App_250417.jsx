@@ -137,15 +137,6 @@ function App() {
                 paginationCounter: "rows",
                 selectableRows: true,
                 rowContextMenu: rowMenu,
-                rowClick: function (e, row) {
-                    try {
-                        const rowData = row.getData(); // 선택된 row의 데이터 가져오기
-                        console.log("선택된 Row 데이터:", rowData);
-                        alert(`선택된 Row: ${JSON.stringify(rowData)}`);
-                    } catch (error) {
-                        console.error("Row 클릭 처리 중 오류:", error);
-                    }
-                },
                 columns: [
                     {
                         formatter: "rowSelection", // 체크박스
@@ -175,6 +166,13 @@ function App() {
                     { title: 'Store ID', field: 'storeId', sorter: 'number', headerMenu: headerMenu },
                 ],
             });
+
+            // 명시적으로 rowClick 이벤트 등록
+            tableRef.current.on("rowClick", (e, row) => {
+                console.log("행 클릭됨:", row.getData());
+                alert(`${row.getData().name}님의 행이 선택되었습니다.`);
+            });
+
         }
     }, [customers]);
 

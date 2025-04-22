@@ -2,13 +2,6 @@ import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { TabulatorFull as Tabulator } from 'tabulator-tables';
 import 'tabulator-tables/dist/css/tabulator.min.css';
-import {
-    Container, TextField, Button, List, ListItem, ListItemText, ListItemSecondaryAction,
-    IconButton, Typography, Box, Paper, Stack
-} from '@mui/material';
-import { Delete, Edit } from '@mui/icons-material';
-
-
 
 function App() {
     const [customers, setCustomers] = useState([]);
@@ -190,44 +183,33 @@ function App() {
     };
 
     return (
-        <Container maxWidth="md" sx={{ mt: 4 }}>
-            <Typography variant="h4" gutterBottom>
-                Customer Management
-            </Typography>
-            <Paper sx={{ p: 2, mb: 4 }}>
-                <form onSubmit={handleSubmit}>
-                    <Stack spacing={2}>
-                        <TextField
-                            label="First Name"
-                            value={form.firstName}
-                            onChange={(e) => setForm({ ...form, firstName: e.target.value })}
-                            fullWidth
-                        />
-                        <TextField
-                            label="Last Name"
-                            value={form.lastName}
-                            onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-                            fullWidth
-                        />
-                        <TextField
-                            label="Email"
-                            value={form.email}
-                            onChange={(e) => setForm({ ...form, email: e.target.value })}
-                            fullWidth
-                        />
-                        <Button type="submit" variant="contained" color="primary">
-                            {form.id ? 'Update' : 'Add'}
-                        </Button>
-                    </Stack>
-                </form>
-            </Paper>
-            <Paper sx={{ p: 2 }}>
-                <Typography variant="h6" gutterBottom>
-                    Customer List
-                </Typography>
-                <div ref={tableRef}></div>
-            </Paper>
-        </Container>
+        <div>
+            <h2>Customer List</h2>
+
+            <form onSubmit={handleSubmit}>
+                <input placeholder="First Name" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} />
+                <input placeholder="Last Name" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} />
+                <input placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+                <label>
+                    <input type="checkbox" checked={form.activebool} onChange={(e) => setForm({ ...form, activebool: e.target.checked })} />
+                    Active
+                </label>
+                <select
+                    value={form.storeId}
+                    onChange={(e) => setForm({ ...form, storeId: e.target.value })}
+                >
+                    <option value="">Select Store</option>
+                    {stores.map((store) => (
+                        <option key={store.id} value={store.id}>
+                            {store.id}
+                        </option>
+                    ))}
+                </select>
+                <button type="submit">{form.id ? 'Update' : 'Add'}</button>
+            </form>
+
+            <div ref={tableRef}></div>
+        </div>
     );
 }
 
